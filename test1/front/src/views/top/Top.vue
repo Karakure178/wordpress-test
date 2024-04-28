@@ -1,19 +1,16 @@
 <script setup>
+// import Footer from "./../../components/common/footer/Footer.vue";
+import Header from "./../../components/common/header/Header.vue";
 import Introduction from "./../../components/page/top/introduction/Intro.vue";
-import Test2 from "./../../components/page/top/test2/Test2.vue";
-import Test3 from "./../../components/page/top/test3/Test3.vue";
 import Work from "./../../components/page/top/work/Work.vue";
 </script>
 
 <template>
   <main>
-    <!-- <Introduction /> -->
+    <Header />
     <Work />
-    <!-- <Test2 /> -->
-    <!-- <Test3 /> -->
+    <!-- <Footer /> -->
   </main>
 </template>
 
-<style lang="scss" scoped>
-@use "./Top.scss";
-</style>
+<style lang="scss" scoped></style>
