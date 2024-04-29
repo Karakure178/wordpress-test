@@ -1,13 +1,33 @@
 <script setup>
+import axios from "axios";
+import { ref } from "vue";
+
 import ArrowAnkerLink from "@/components/ui/arrowAnkerLink/ArrowAnkerLink.vue";
+import ErrorDisplay from "@/components/ui/errorDisplay/ErrorDisplay.vue";
 import SectionHeadline from "@/components/ui/sectionHeadline/SectionHeadline.vue";
+
 const props = defineProps({
   headline: String,
 });
+
+// axiosを使ってwordpressのAPIからデータを取得する
+// データが取れたかどうかを待つ必要がある
+let is404 = ref(null);
+console.log(is404.value);
+try {
+  const response = axios.get("http://localhost:8001/wp-json/wp/v2/posts");
+  response.then((res) => {
+    is404.value = false;
+  });
+} catch (error) {
+  // サーバーからの応答が遅すぎる場合は404の画面を出すために切り分け
+  console.log("サーバーが立ち上がっていません");
+  is404.value = true;
+}
 </script>
 
 <template>
-  <article>
+  <article v-if="is404 !== true">
     <section class="article">
       <div class="article__inner">
         <SectionHeadline :headline="props.headline" />
@@ -18,6 +38,7 @@ const props = defineProps({
       </div>
     </section>
   </article>
+  <ErrorDisplay v-else />
 </template>
 
 <style lang="scss" scoped>
