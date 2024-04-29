@@ -15,9 +15,11 @@ const props = defineProps({
 let is404 = ref(null);
 console.log(is404.value);
 try {
-  const response = axios.get("http://localhost:8001/wp-json/wp/v2/posts");
+  const response = axios.get("/posts");
+  // const response = axios.get("http://localhost:8001/wp-json/wp/v2/posts");
   response.then((res) => {
     is404.value = false;
+    console.log(res);
   });
 } catch (error) {
   // サーバーからの応答が遅すぎる場合は404の画面を出すために切り分け
