@@ -13,14 +13,18 @@ const props = defineProps({
 // axiosを使ってwordpressのAPIからデータを取得する
 // データが取れたかどうかを待つ必要がある
 let is404 = ref(0);
+
+// wordpressのAPIから取得したデータ(記事回り)を格納する
+let page = ref(null);
 onMounted(() => {
-  const response = axios.get("http://localhost:8000/wp-json/wp/v2/posts");
-  // const response = axios.get("http://localhost:8001/wp-json/wp/v2/posts");
+  //const response = axios.get("/posts");
+  const response = axios.get("http://localhost:8000/wp-json/wp/v2/posts/9");
   console.log(response);
   response
     .then((res) => {
       is404.value = 1;
       console.log(res);
+      page.value = res.data;
     })
     .catch((error) => {
       // サーバーからの応答が遅すぎる場合は404の画面を出すために切り分け
@@ -42,6 +46,7 @@ watch(is404, (newVal) => {
     <section class="article">
       <div class="article__inner">
         <SectionHeadline :headline="props.headline" />
+        <div class="article__container" v-html="page.content.rendered"></div>
         <ArrowAnkerLink
           href="#work"
           anker-text="今回はNext.jsと連携をさせてみましたが、Nuxt.jsだったり別のFWとも同様の構成で連携することができます！"
