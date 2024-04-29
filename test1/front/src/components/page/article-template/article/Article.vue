@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import ArrowAnkerLink from "@/components/ui/arrowAnkerLink/ArrowAnkerLink.vue";
 import ErrorDisplay from "@/components/ui/errorDisplay/ErrorDisplay.vue";
@@ -12,24 +12,33 @@ const props = defineProps({
 
 // axiosを使ってwordpressのAPIからデータを取得する
 // データが取れたかどうかを待つ必要がある
-let is404 = ref(null);
-console.log(is404.value);
-try {
-  const response = axios.get("/posts");
+let is404 = ref(0);
+onMounted(() => {
+  const response = axios.get("http://localhost:8000/wp-json/wp/v2/posts");
   // const response = axios.get("http://localhost:8001/wp-json/wp/v2/posts");
-  response.then((res) => {
-    is404.value = false;
-    console.log(res);
-  });
-} catch (error) {
-  // サーバーからの応答が遅すぎる場合は404の画面を出すために切り分け
-  console.log("サーバーが立ち上がっていません");
-  is404.value = true;
-}
+  console.log(response);
+  response
+    .then((res) => {
+      is404.value = 1;
+      console.log(res);
+    })
+    .catch((error) => {
+      // サーバーからの応答が遅すぎる場合は404の画面を出すために切り分け
+      console.log("サーバーが立ち上がっていません");
+      is404.value = -1;
+    });
+});
+
+// もし表示されなかったら関数実行する等であればここに書く
+// たとえば表示されなくてリダイレクトする場合とか
+watch(is404, (newVal) => {
+  console.log("hello", is404.value);
+});
 </script>
 
 <template>
-  <article v-if="is404 !== true">
+  <div v-if="is404 === 0">loading...</div>
+  <article v-else-if="is404 === 1">
     <section class="article">
       <div class="article__inner">
         <SectionHeadline :headline="props.headline" />
