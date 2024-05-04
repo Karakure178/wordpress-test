@@ -1,0 +1,157 @@
+@use "../../../../assets/scss/configs/index" as *;
+
+// ===========================================
+// work 全体設定
+// ===========================================
+.work {
+  height: 100vh;
+  background-color: #dcdcdc;
+
+  @include L-XL {
+    min-height: 1080px;
+    max-height: 1000px;
+  }
+
+  @include S-M {
+    min-height: 667px;
+    max-height: 1000px;
+  }
+}
+
+.work__inner {
+  @include L-XL {
+    position: relative;
+    max-width: 1280px;
+    padding-top: 132px; // TODO header込み、要修正
+    padding-right: 90px;
+    padding-left: 90px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  @include S-M {
+    padding-top: 88px;
+    padding-left: 20px;
+  }
+}
+
+.work__heading {
+  font-family: $abrilFatface;
+  font-weight: 400;
+  color: #000;
+
+  @include L-XL {
+    font-size: 120px;
+    line-height: calc(162 / 120);
+  }
+
+  @include S-M {
+    font-size: 60px;
+  }
+}
+
+.work__carousel {
+  @include MQ-DOWN(1174) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+  }
+}
+
+// -------------------------------------------
+// 作品の画像
+// -------------------------------------------
+.work__image {
+  @include MQ-BETWEEN(1175, 1420) {
+    right: 130px;
+  }
+
+  @include MQ-DOWN(1420) {
+    width: 400px;
+  }
+
+  @include MQ-UP(1175) {
+    position: absolute;
+    top: calc(50% + 130px);
+    right: 40px;
+    margin-top: 59px;
+    transform: translateY(-50%);
+  }
+
+  @include MQ-UP(1421) {
+    right: 40px;
+    width: 564px;
+  }
+
+  @include L-XL {
+    box-shadow: -30px 30px 6px rgb(0 0 0 / 16%);
+  }
+
+  @include S-M {
+    width: 260px;
+    box-shadow: -15px 15px 3px rgb(0 0 0 / 16%);
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.work__button {
+  @include MQ-BETWEEN(769, 1174) {
+    height: 60px;
+    padding-top: 0;
+    margin-top: 10px;
+  }
+
+  @include MQ-DOWN(1174) {
+    align-items: center;
+  }
+
+  @include MQ-UP(1175) {
+    margin-top: 48px;
+    margin-left: 131px;
+  }
+
+  @include S-M {
+    // margin-top: 48px;
+  }
+
+  // & spanで書くと後追加のクラスでは対応できない
+  // 後ろに引き継いで指定ができない
+  // &.commonButton {
+  //   background-color: $accentColor;
+
+  //   span {
+  //     color: $accentColor;
+
+  //     @include MQ-BETWEEN(769, 1174) {
+  //       font-size: 30px;
+  //     }
+
+  //     @include S-M {
+  //       // margin-top: 48px;
+  //     }
+  //   }
+  // }
+}
+
+// ===========================================
+// work__carousel 全体設定
+// ===========================================
+.swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #000;
+  text-align: center;
+  background: rgb(0 0 0 / 20%);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #007aff;
+}

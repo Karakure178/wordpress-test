@@ -40,7 +40,9 @@ onMounted(() => {
 // たとえば表示されなくてリダイレクトする場合とか
 watch(is404, (newVal) => {
   console.log("hello", is404.value);
-  codeHighLight();
+  if (is404.value === 1) {
+    codeHighLight();
+  }
 });
 
 // コードハイライト系
