@@ -34,8 +34,10 @@ const props = defineProps({
 .pageHeadline {
   position: relative;
   transition: transform 0.3s;
+  background-color: #d9d9d9;
+
   @include L-XL {
-    height: 430px; //暫定措置
+    height: 174px; //暫定措置
     margin-top: 86px; // header分
     padding-bottom: 40px;
     padding-left: 40px;
@@ -46,39 +48,40 @@ const props = defineProps({
     margin-top: 48px;
     padding-top: 43px;
     padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
-  &::after,
-  &::before {
-    position: absolute;
-    content: "";
-    display: block;
-    height: 100%;
-    top: 0;
-    z-index: -1;
-    background-color: #d9d9d9;
-  }
+  // &::after,
+  // &::before {
+  //   position: absolute;
+  //   content: "";
+  //   display: block;
+  //   height: 100%;
+  //   top: 0;
+  //   z-index: -1;
+  //   background-color: #d9d9d9;
+  // }
 
-  &::before {
-    // 以下リニアmapじゃないとうまく動かない
-    right: map(100vw, 769, 1440, 88, 228);
-    @include L-XL {
-      width: 162px;
-      // clip-pathを使って三角形を作ってる
-      // 参考：https://qiita.com/degudegu2510/items/09f34d4b218c9df6bb57
-      //clip-path: polygon(-10% 0%, 0 0, 100% 100%, -10% 100%);
-      clip-path: polygon(-10% 0, 100% 0, 0 100%, -10% 100%);
-    }
-  }
+  // &::before {
+  //   // 以下リニアmapじゃないとうまく動かない
+  //   right: map(100vw, 769, 1440, 88, 228);
+  //   @include L-XL {
+  //     width: 162px;
+  //     // clip-pathを使って三角形を作ってる
+  //     // 参考：https://qiita.com/degudegu2510/items/09f34d4b218c9df6bb57
+  //     //clip-path: polygon(-10% 0%, 0 0, 100% 100%, -10% 100%);
+  //     clip-path: polygon(-10% 0, 100% 0, 0 100%, -10% 100%);
+  //   }
+  // }
 
-  &::after {
-    width: 100%;
-
-    @include L-XL {
-      // 1500=400px
-      right: map(100vw, 769, 1500, 250, 400);
-    }
-  }
+  // &::after {
+  //   @include L-XL {
+  //     // 1500=400px
+  //     width: 100%;
+  //     right: map(100vw, 769, 1500, 250, 400);
+  //   }
+  // }
 
   &.js-hidden {
     transform: translateX(-100%);
@@ -86,7 +89,7 @@ const props = defineProps({
 }
 
 .pageHeadline__inner {
-  max-width: 1500px;
+  max-width: 1020px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -96,8 +99,8 @@ const props = defineProps({
   color: #252525;
 
   @include L-XL {
-    padding-top: 170px;
-    font-size: 60px;
+    padding-top: 74px;
+    font-size: 44px;
   }
 
   @include S-M {
@@ -112,8 +115,15 @@ const props = defineProps({
   @include L-XL {
     bottom: -59px; // 次セクションでmargin-top設定すること
     max-width: 320px;
+    clip-path: polygon(0 100%, 50% 0, 100% 0, 100% 100%);
+  }
+
+  @include S-M {
+    bottom: -20px;
+    max-width: 160px;
     clip-path: polygon(0 100%, 38% 0, 100% 0, 100% 100%);
   }
+
   img {
     width: 100%;
   }

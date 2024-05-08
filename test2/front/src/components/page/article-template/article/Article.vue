@@ -121,7 +121,7 @@ const dataParse = (data) => {
   .wp-block-image {
     @include L-XL {
       width: 100%;
-      max-width: 1020px;
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 24px;
