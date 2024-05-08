@@ -13,7 +13,7 @@ import PageHeadline from "@/components/page/article-template/pageHeadline/PageHe
     <PageHeadline headline="Work" />
 
     <Article headline="Work" />
-    <Work />
+    <!-- <Work /> -->
     <!-- <Footer /> -->
   </main>
 </template>

@@ -21,7 +21,7 @@ let is404 = ref(0);
 let page = ref(null);
 onMounted(() => {
   //const response = axios.get("/posts");
-  const response = axios.get("http://localhost:8000/wp-json/wp/v2/posts/8");
+  const response = axios.get("http://localhost:8002/wp-json/wp/v2/posts/7");
   console.log(response);
   response
     .then((res) => {
@@ -39,9 +39,9 @@ onMounted(() => {
 // もし表示されなかったら関数実行する等であればここに書く
 // たとえば表示されなくてリダイレクトする場合とか
 watch(is404, (newVal) => {
-  console.log("hello", is404.value);
   if (is404.value === 1) {
     codeHighLight();
+    dataParse(page.value.content.rendered);
   }
 });
 
@@ -52,11 +52,20 @@ watch(is404, (newVal) => {
 async function codeHighLight() {
   await nextTick();
   const codes = document.querySelectorAll("code");
-  console.log(codes);
+  // console.log(codes);
   codes.forEach((code) => {
     hljs.highlightElement(code);
   });
 }
+
+// wordpressで取得したデータをそれぞれのコンポーネントに渡す
+const dataParse = (data) => {
+  // const tabData;
+  const parser = new DOMParser();
+  const dom = parser.parseFromString(data, "text/html");
+  const pageData = dom.querySelector("body");
+  console.log(pageData);
+};
 </script>
 
 <template>
@@ -64,23 +73,17 @@ async function codeHighLight() {
   <article v-else-if="is404 === 1">
     <section class="article">
       <div class="article__inner">
-        <SectionHeadline :headline="props.headline" />
+        <SectionHeadline :headline="page.title.rendered" :date="page.slug" />
+        <!-- ここにコンポーネントを分割する処理を記載する -->
         <div class="article__container" v-html="page.content.rendered"></div>
         <ArrowAnkerLink href="#work" anker-text="WORKS" />
-        <pre>
-          <code class="javascript">
-            function test() {
-              console.log("hello");
-            }
-          </code>
-        </pre>
       </div>
     </section>
   </article>
   <ErrorDisplay v-else />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use "./../../../../assets/scss/configs/index" as *;
 .article {
   @include L-XL {
@@ -99,18 +102,67 @@ async function codeHighLight() {
 }
 
 .article__inner {
-  max-width: 1100px;
+  max-width: 1020px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .article__container {
+  // 記事全体の余白等調整用
+  @include L-XL {
+    padding-top: 24px;
+  }
+
+  @include S-M {
+    padding-top: 20px;
+  }
+
+  // 画像の対応
+  .wp-block-image {
+    @include L-XL {
+      width: 100%;
+      max-width: 1020px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 24px;
+    }
+
+    @include S-M {
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+  }
+
+  // コード用タブレイアウト
   .wp-block-ub-tabbed-content-block {
     @include L-XL {
     }
 
     @include S-M {
     }
+  }
+
+  // ただのテキスト対応用
+  p {
+    @include L-XL {
+      font-size: 20px;
+      line-height: 2.4rem;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    @include S-M {
+      font-size: 14px;
+      line-height: 2.1rem;
+    }
+  }
+
+  // 真ん中寄せしたテキスト
+  .has-text-align-center {
+    text-align: center;
   }
 }
 </style>

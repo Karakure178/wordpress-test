@@ -13,6 +13,18 @@ const props = defineProps({
       <h1 class="pageHeadline__title">
         {{ props.headline }}
       </h1>
+      <div class="pageHedeline__img">
+        <picture>
+          <source
+            media="(max-width: 768px)"
+            srcset="/assets/image/common/404.png"
+          />
+          <img
+            src="/assets/image/common/404.png"
+            alt="ページヘッドラインの画像"
+          />
+        </picture>
+      </div>
     </div>
   </section>
 </template>
@@ -23,9 +35,8 @@ const props = defineProps({
   position: relative;
   transition: transform 0.3s;
   @include L-XL {
-    height: 262px; //暫定措置
+    height: 430px; //暫定措置
     margin-top: 86px; // header分
-    padding-top: 73px;
     padding-bottom: 40px;
     padding-left: 40px;
     padding-right: 40px;
@@ -45,17 +56,18 @@ const props = defineProps({
     height: 100%;
     top: 0;
     z-index: -1;
-    background-color: $baseColor;
+    background-color: #d9d9d9;
   }
 
   &::before {
-    //right: calc(400px - 83px);
-    right: map(100vw, 769, 1500, 167, 317);
+    // 以下リニアmapじゃないとうまく動かない
+    right: map(100vw, 769, 1440, 88, 228);
     @include L-XL {
-      width: 83px;
+      width: 162px;
       // clip-pathを使って三角形を作ってる
       // 参考：https://qiita.com/degudegu2510/items/09f34d4b218c9df6bb57
-      clip-path: polygon(0% 0, 100% 100%, 0 100%);
+      //clip-path: polygon(-10% 0%, 0 0, 100% 100%, -10% 100%);
+      clip-path: polygon(-10% 0, 100% 0, 0 100%, -10% 100%);
     }
   }
 
@@ -81,14 +93,29 @@ const props = defineProps({
 
 .pageHeadline__title {
   font-weight: 700;
-  color: #f5f5f5;
+  color: #252525;
 
   @include L-XL {
-    font-size: 40px;
+    padding-top: 170px;
+    font-size: 60px;
   }
 
   @include S-M {
     font-size: 26px;
+  }
+}
+
+.pageHedeline__img {
+  position: absolute;
+  right: 0;
+
+  @include L-XL {
+    bottom: -59px; // 次セクションでmargin-top設定すること
+    max-width: 320px;
+    clip-path: polygon(0 100%, 38% 0, 100% 0, 100% 100%);
+  }
+  img {
+    width: 100%;
   }
 }
 </style>
